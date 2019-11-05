@@ -44,10 +44,11 @@ class HelloControllerIntegrationTest {
         when(timeStampService.generateTimestamp()).thenReturn(mockDate);
 
         // when
-        String url = String.format("http://localhost:%s/greeting",port);
+        String url = String.format("http://localhost:%s/greeting", port);
         ResponseEntity<GreetingMessage> response = restTemplate.getForEntity(url, GreetingMessage.class);
 
         // then
+        assertNotNull(response.getBody());
         assertEquals("Hello Mar", response.getBody().getMessage());
         assertEquals(mockDate, response.getBody().getTimestamp());
     }

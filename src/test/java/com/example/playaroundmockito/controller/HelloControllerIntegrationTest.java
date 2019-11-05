@@ -36,7 +36,7 @@ class HelloControllerIntegrationTest {
     private TimeStampService timeStampService;
 
     @Test
-    @DisplayName("Integration test of the BarService")
+    @DisplayName("Integration test of the Hello Controller, greeting api")
     void greetingTest() throws Exception {
 
         // given

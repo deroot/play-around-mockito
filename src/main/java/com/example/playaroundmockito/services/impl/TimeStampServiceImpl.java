@@ -7,8 +7,15 @@ import java.util.Date;
 
 @Service
 public class TimeStampServiceImpl implements TimeStampService {
+    private String generateForName;
+
     @Override
     public Date generateTimestamp() {
         return new Date();
+    }
+
+    @Override
+    public void generateFor(String name) {
+        this.generateForName = name;
     }
 }

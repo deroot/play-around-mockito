@@ -6,8 +6,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -22,11 +21,15 @@ import static org.mockito.Mockito.when;
 @DisplayName("Demo Spring Boot unit test with JUnit 5 + Mockito")
 public class GreetingServiceImplTest {
 
+    @Spy
     @InjectMocks
     private GreetingServiceImpl greetingService;
 
     @Mock
     private TimeStampService timeStampService;
+
+    @Captor
+    private ArgumentCaptor<String> stringArgumentCaptor;
 
     @Test
     void sayHello() throws Exception {
@@ -38,5 +41,23 @@ public class GreetingServiceImplTest {
         verify(timeStampService).generateTimestamp();
         assertEquals(mockDate, greetingMessage.getTimestamp());
 
+    }
+
+    @Test
+    void sayHelloWithParam() throws Exception {
+
+        // given
+        Date mockDate = DateUtils.parseDate("2019-01-01", "yyyy-MM-dd");
+        when(timeStampService.generateTimestamp()).thenReturn(mockDate);
+
+        // when
+        String name = "Scott";
+        GreetingMessage greetingMessage = greetingService.sayHelloWithName(name);
+
+        // then
+        verify(greetingService).sayHelloWithName("Scott"); // @Spy
+
+        verify(timeStampService).generateFor(stringArgumentCaptor.capture()); // @Captor
+        assertEquals("Scott", stringArgumentCaptor.getValue());
     }
 }

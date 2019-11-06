@@ -22,4 +22,17 @@ public class GreetingServiceImpl implements GreetingService {
                 .timestamp(now)
                 .build();
     }
+
+    @Override
+    public GreetingMessage sayHelloWithName(String name) {
+        Date now = timeStampService.generateTimestamp();
+        timeStampService.generateFor(name);
+
+        String message = String.format("Hello %s", name);
+
+        return GreetingMessage.builder()
+                .message(message)
+                .timestamp(now)
+                .build();
+    }
 }

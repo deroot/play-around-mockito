@@ -59,5 +59,7 @@ public class GreetingServiceImplTest {
 
         verify(timeStampService).generateFor(stringArgumentCaptor.capture()); // @Captor
         assertEquals("Scott", stringArgumentCaptor.getValue());
+
+        assertEquals("Hello Scott", greetingMessage.getMessage());
     }
 }
